@@ -6,7 +6,11 @@ DEBUG = False
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3.deploy'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('NAME'),
+        'HOST': env('HOST'),
+        'USER': env('USER'),
+        'PASSWORD': env('PASSWORD'),
+        'PORT': env('PORT'),
     }
 }
