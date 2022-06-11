@@ -14,6 +14,7 @@ class RecruitmentField(models.Model):
 
 class Club(models.Model):
     name = models.CharField(max_length=31)
+    image = models.ImageField(upload_to='club')
     club_description = models.TextField()
     recruitment_fields = models.ManyToManyField('club.RecruitmentField')
     recruitment_personnel = models.PositiveIntegerField()
@@ -23,6 +24,10 @@ class Club(models.Model):
     activity_area = models.CharField(max_length=31)
     activity_period = models.CharField(max_length=31)
     home_url = models.URLField()
+
+    @property
+    def sns(self):
+        return self.sns_set.values('link')
 
 
 class SNS(models.Model):
