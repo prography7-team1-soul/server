@@ -40,7 +40,11 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
-
+    'accounts',
+    'articles',
+    'chat_rooms',
+    'club',
+    'notifications',
 ]
 
 THIRD_PARTY_APPS = [
