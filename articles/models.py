@@ -16,18 +16,18 @@ class Tag(models.Model):
     name = models.CharField(max_length=7)
 
 
+class Author(models.Model):
+    name = models.CharField(max_lenth=15)
+    company = models.ForeignKey('article.Company', on_delete=models.PROTECT)
+    part = models.ManyToManyField('articles.Part')
+
+
 class Article(models.Model):
     summary = models.TextField()
-    author = models.CharField(max_length=31)
+    author = models.ForeignKey('article.Author', on_delete=models.SET_NULL)
     url = models.URLField()
     tags = models.ManyToManyField('articles.Tag')
     image = models.ImageField(upload_to='articles')
-
-
-class Author(models.Model):
-    name = models.CharField()
-    company = models.ForeignKey('article.Company', on_delete=models.PROTECT)
-    part = models.ManyToManyField('articles.Part')
 
 
 class Company(models.Model):
