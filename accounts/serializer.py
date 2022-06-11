@@ -29,11 +29,8 @@ class UserSignUpSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         request_data = self.context.get('request')
-        print(request_data)
-
         # uuid가 없으면 None으로 반환
         uuid = request_data.headers.get('uuid', None)
-        print(uuid)
         # get으로 가져오면 오류로 다운될 수 있음
         user = User.objects.filter(uuid=uuid).first()
         if user:
