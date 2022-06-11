@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from club.models import SNS, Club, RecruitmentField
+
+admin.site.register([SNS, Club, RecruitmentField])
