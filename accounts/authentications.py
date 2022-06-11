@@ -6,7 +6,7 @@ from accounts.models import User
 class UuidAuthentication(BaseAuthentication):
     def authenticate(self, request):
         if (
-                request.path != "/users"
+                request.path != "/api/users/signup"
                 and "admin" not in request.path
                 and "swagger" not in request.path
         ):
