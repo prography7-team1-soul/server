@@ -14,6 +14,16 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
+class UserBookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'club_bookmarks',
+            'chatroom_bookmarks',
+            'article_bookmarks',
+        ]
+
+
 class UserSignUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
