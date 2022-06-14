@@ -9,7 +9,7 @@ class ChatRoom(models.Model):
 
     @property
     def category_list(self):
-        return self.category.values()
+        return self.category_set.values('name')
 
 
 class Category(models.Model):

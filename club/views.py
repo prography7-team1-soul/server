@@ -7,9 +7,11 @@ from rest_framework.decorators import action
 
 from club.serializers import ClubDetailSerializer
 
+from chat_rooms.models import ChatRoom
+
 
 class ClubViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset=Club.objects.all()
+    queryset=ChatRoom.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':

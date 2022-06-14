@@ -1,31 +1,24 @@
 from rest_framework import viewsets, status
-from club.models import Club
-from club.serializers import ClubSummarizeSerializer
 from rest_framework.decorators import action
-from club.serializers import ClubDetailSerializer
 from accounts.models import User
 from rest_framework.response import Response
 
-from server.chat_rooms.models import ChatRoom
+from chat_rooms.models import ChatRoom
+from chat_rooms.serializers import ChatRoomSerializer
 
 
-class ClubViewSet(viewsets.ReadOnlyModelViewSet):
+class ChatRoomViewSet(viewsets.ReadOnlyModelViewSet):
     queryset=ChatRoom.objects.all()
-
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return ClubSummarizeSerializer
-        elif self.action == 'retrieve':
-            return ClubDetailSerializer
+    serializer_class = ChatRoomSerializer
 
     @action(methods=['post'], detail=True)
     def bookmark(self, request, pk):
-        club = self.get_object()
-        user = User.objects.filter(uuid=request.user.uuid, club_bookmarks__in=[club]).first()
+        chat_room = self.get_object()
+        user = User.objects.filter(uuid=request.user.uuid, chatroom_bookmarks__in=[chat_room]).first()
         if user:
-            user.club_bookmarks.remove(club)
+            user.chatroom_bookmarks.remove(chat_room)
             return Response({'message': 'delete bookmark'}, status=status.HTTP_204_NO_CONTENT)
         elif user is None:
-            request.user.club_bookmarks.add(club)
+            request.user.chatroom_bookmarks.add(chat_room)
             return Response({'message': 'add bookmark'}, status=status.HTTP_200_OK)
         return Response({'message': 'request data error'}, status=status.HTTP_400_BAD_REQUEST)
