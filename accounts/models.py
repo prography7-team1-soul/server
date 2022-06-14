@@ -9,7 +9,6 @@ class User(models.Model):
     club_bookmarks = models.ManyToManyField('club.Club')
     chatroom_bookmarks = models.ManyToManyField('chat_rooms.ChatRoom')
     article_bookmarks = models.ManyToManyField('articles.Article')
-    # club_notifications = notinoti~
 
 
 @receiver(post_save, sender=User)
