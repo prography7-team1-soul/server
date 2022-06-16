@@ -9,6 +9,7 @@ class Notification(models.Model):
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     message = models.TextField()
 
+
 @receiver(post_save, sender=User)
 def create_user_notification(sender, instance, created, **kwargs):
     if created:
