@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
 from club.models import Club
 from club.serializers import ClubSummarizeSerializer
@@ -16,6 +17,15 @@ class ClubViewSet(viewsets.ReadOnlyModelViewSet):
         elif self.action == 'retrieve':
             return ClubDetailSerializer
 
+    @swagger_auto_schema(operation_summary="it 동아리 리스트 API")
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @swagger_auto_schema(operation_summary="it 동아리 상세보기 API")
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+    @swagger_auto_schema(operation_summary="it 동아리 북마크 on/off API", operation_description="request header에 uuid 필수!")
     @action(methods=['post'], detail=True)
     def bookmark(self, request, pk):
         club = self.get_object()
