@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from accounts.models import User
@@ -11,6 +12,21 @@ class ChatRoomViewSet(viewsets.ReadOnlyModelViewSet):
     queryset=ChatRoom.objects.all()
     serializer_class = ChatRoomSerializer
 
+    def get_serializer_class(self):
+        if self.action == 'bookmark':
+            return None
+        else:
+            return ChatRoomSerializer
+
+    @swagger_auto_schema(operation_summary="오픈채팅방 리스트 API")
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @swagger_auto_schema(operation_summary="오픈채팅방 상세보기 API", operation_description="굳이 필요없는 api일수도 있으나 일단 만들어뒀습니당!")
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+    @swagger_auto_schema(operation_summary="오픈채팅방 북마크 on/off API", operation_description="request header에 uuid 필수!")
     @action(methods=['post'], detail=True)
     def bookmark(self, request, pk):
         chat_room = self.get_object()
