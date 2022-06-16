@@ -1,6 +1,6 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from articles.models import Article
 from articles.serializer import ArticleSerializer
 
@@ -53,9 +53,15 @@ class ArticleViewSet(ReadOnlyModelViewSet):
         if instance in user.article_bookmarks.all():
             user.article_bookmarks.remove(instance)
             user.save()
-            return Response('북마크 해제', status=201)
+            response = {
+                'message': '북마크 해제',
+            }
+            return Response(response, status=201)
         # 유저 아티클 북마크에 해당 아티클이 없으면 북마크 추가
         else:
             user.article_bookmarks.add(instance)
             user.save()
-            return Response('북마크 등록', status=201)
+            response = {
+                'message': '북마크 등록',
+            }
+            return Response(response, status=201)

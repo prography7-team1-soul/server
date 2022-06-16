@@ -11,6 +11,22 @@ class User(models.Model):
     article_bookmarks = models.ManyToManyField('articles.Article')
     # club_notifications = notinoti~
 
+    @property
+    def message(self):
+        return "No params"
+
+    @property
+    def club_data(self):
+        return self.club_bookmarks.values()
+
+    @property
+    def chatroom_data(self):
+        return self.chatroom_bookmarks.values()
+
+    @property
+    def article_data(self):
+        return self.article_bookmarks.values()
+
 
 @receiver(post_save, sender=User)
 def create_user(sender, instance, created, *args, **kwargs):
