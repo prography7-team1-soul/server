@@ -24,23 +24,21 @@ class UserSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
-class UserBookmarkSerializer(serializers.ModelSerializer):
+class UserMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'club_bookmarks',
-            'chatroom_bookmarks',
-            'article_bookmarks',
+            'message'
         ]
 
-        read_only_fields = ['club_bookmarks', 'chatroom_bookmarks', 'article_bookmarks']
+        read_only_fields = ['message']
 
 
 class UserClubBookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'club_bookmarks',
+            'club_data',
         ]
 
 
@@ -48,7 +46,7 @@ class UserChatroomBookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'chatroom_bookmarks',
+            'chatroom_data',
         ]
 
 
@@ -56,5 +54,5 @@ class UserArticleBookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'article_bookmarks',
+            'article_data',
         ]
