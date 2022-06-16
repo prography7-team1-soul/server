@@ -26,7 +26,7 @@ class Article(models.Model):
     summary = models.TextField()
     author = models.ForeignKey('articles.Author', on_delete=models.SET_NULL, null=True)
     url = models.URLField()
-    tags = models.ManyToManyField('articles.Tag')
+    tags = models.ManyToManyField('articles.Tag', blank=True)
     image = models.ImageField(upload_to='articles')
 
 
