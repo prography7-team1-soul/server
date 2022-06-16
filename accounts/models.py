@@ -12,12 +12,8 @@ class User(models.Model):
     # club_notifications = notinoti~
 
     @property
-    def message(self):
-        return "No params"
-
-    @property
     def club_data(self):
-        return self.club_bookmarks.values()
+        return self.club_bookmarks.values() # 필드 추가될 수 있음
 
     @property
     def chatroom_data(self):
