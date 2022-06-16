@@ -16,6 +16,8 @@ class ClubViewSet(viewsets.ReadOnlyModelViewSet):
             return ClubSummarizeSerializer
         elif self.action == 'retrieve':
             return ClubDetailSerializer
+        elif self.action == 'bookmark':
+            return None
 
     @swagger_auto_schema(operation_summary="it 동아리 리스트 API")
     def list(self, request, *args, **kwargs):
