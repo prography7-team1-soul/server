@@ -20,11 +20,19 @@ class ChatRoomViewSet(viewsets.ReadOnlyModelViewSet):
 
     @swagger_auto_schema(operation_summary="오픈채팅방 리스트 API")
     def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        response = super().list(request, *args, **kwargs)
+        response = {
+            'chat_rooms' : response.data
+        }
+        return Response(response, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(operation_summary="오픈채팅방 상세보기 API", operation_description="굳이 필요없는 api일수도 있으나 일단 만들어뒀습니당!")
     def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
+        response = super().retrieve(request, *args, **kwargs)
+        response = {
+            'chat_rooms_retrieve': response.data
+        }
+        return Response(response, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(operation_summary="오픈채팅방 북마크 on/off API", operation_description="request header에 uuid 필수!")
     @action(methods=['post'], detail=True)
