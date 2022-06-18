@@ -28,7 +28,7 @@ class ArticleViewSet(ReadOnlyModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         response = super().retrieve(request, *args, **kwargs)
         response = {
-            'article_data': response.data
+            'article_retrieve': response.data
         }
         return Response(response)
 

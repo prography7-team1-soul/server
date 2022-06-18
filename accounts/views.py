@@ -46,6 +46,9 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
                          manual_parameters=[
                              openapi.Parameter('uuid', openapi.IN_HEADER, description="인증을 위해 반드시 헤더에 필요합니다.",
                                                type=openapi.TYPE_STRING),
+                             openapi.Parameter('bookmarks', openapi.IN_QUERY,
+                                               description="url path에 bookmarks가 반드시 들어가야 합니다.",
+                                               type=openapi.TYPE_STRING),
                              openapi.Parameter('app name', openapi.IN_QUERY, description="어떤 앱에 대한 북마크인지 반드시 query 형태로 필요합니다.",
                                                 type=openapi.TYPE_STRING)
                          ])
