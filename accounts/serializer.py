@@ -8,24 +8,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'uuid',
             'nickname',
-            'club_bookmarks',
-            'chatroom_bookmarks',
-            'article_bookmarks',
         ]
 
-
-class UserSignUpSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            'uuid',
-            'nickname',
-            'club_bookmarks',
-            'chatroom_bookmarks',
-            'article_bookmarks',
-        ]
-
-        read_only_fields = ['uuid', 'nickname', 'club_bookmarks', 'chatroom_bookmarks', 'article_bookmarks']
+        read_only_fields = ['uuid', 'nickname']
 
     def create(self, validated_data):
         request_data = self.context.get('request')
@@ -37,3 +22,39 @@ class UserSignUpSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'error_message': '이미 가입된 계정이 존재합니다.'})
         validated_data['uuid'] = uuid
         return super().create(validated_data)
+
+
+class UserBookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'club_bookmarks',
+            'chatroom_bookmarks',
+            'article_bookmarks',
+        ]
+
+        read_only_fields = ['club_bookmarks', 'chatroom_bookmarks', 'article_bookmarks']
+
+
+class UserClubBookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'club_bookmarks',
+        ]
+
+
+class UserChatroomBookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'chatroom_bookmarks',
+        ]
+
+
+class UserArticleBookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'article_bookmarks',
+        ]
