@@ -1,3 +1,5 @@
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema, no_body
 from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -9,24 +11,23 @@ from accounts.serializer import UserSerializer
 
 class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
     """
-    유저 개인 page를 조회하는 API + 유저 회원가입 API
+    유저 개인 조회 API
 
     ---
-    ## `/api/users/<pk>`
-    ## `/api/users/signup`
-    ## 요청 메소드
-        - GET 메소드만 가능합니다.
-    ## 에러 메시지
-        - 인증된 유저가 아닐 경우 401 Unauthorized 에러가 발생합니다.
-    ## 내용
-        - uuid : 유저 개인 uuid 값
-        - nickname : 유저 개인 nickname
     """
 
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
 
+    @swagger_auto_schema(operation_summary="회원가입 API", request_body=no_body,
+                         operation_description="- 유저 생성을 위해 헤더에 uuid가 반드시 필요합니다. 없을 경우 {400: 잘못된 요청} 에러가 발생합니다.",
+                         manual_parameters=[
+                             openapi.Parameter('uuid', openapi.IN_HEADER, description="인증을 위해 반드시 헤더에 필요합니다.",
+                                               type=openapi.TYPE_STRING),
+                             openapi.Parameter('signup', openapi.IN_PATH, description="반드시 signup이 path에 들어가야 합니다.",
+                                               type=openapi.TYPE_STRING)
+                         ])
     @action(methods=['post'], detail=False)
     def signup(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -37,6 +38,20 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
         }
         return Response(response)
 
+    @swagger_auto_schema(operation_summary="유저 개인 북마크 조회 API",
+                         operation_description="- query 값이 없을 경우 북마크 데이터는 주어지지 않습니다. 없이 요청하여도 성공적으로 응답됩니다. "
+                                               "다만 No parameter 메세지만 전달됩니다.\n"
+                                               "- 인증을 위해 uuid가 헤더에 반드시 필요하며, 없을 경우 {401: 인증 실패} 에러가 발생합니다.",
+                         request_body=no_body,
+                         manual_parameters=[
+                             openapi.Parameter('uuid', openapi.IN_HEADER, description="인증을 위해 반드시 헤더에 필요합니다.",
+                                               type=openapi.TYPE_STRING),
+                             openapi.Parameter('bookmarks', openapi.IN_QUERY,
+                                               description="url path에 bookmarks가 반드시 들어가야 합니다.",
+                                               type=openapi.TYPE_STRING),
+                             openapi.Parameter('app name', openapi.IN_QUERY, description="어떤 앱에 대한 북마크인지 반드시 query 형태로 필요합니다.",
+                                                type=openapi.TYPE_STRING)
+                         ])
     @action(methods=['get'], detail=True)
     def bookmarks(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_object())
