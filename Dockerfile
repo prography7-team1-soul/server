@@ -12,6 +12,7 @@ WORKDIR /server
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
+RUN pip install psycopg2
 
 RUN python3 manage.py migrate --settings=config.settings.deploy
 RUN python3 manage.py collectstatic --settings=config.settings.deploy
