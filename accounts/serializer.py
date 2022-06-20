@@ -8,24 +8,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'uuid',
             'nickname',
-            'club_bookmarks',
-            'chatroom_bookmarks',
-            'article_bookmarks',
+            'club_data',
+            'chatroom_data',
+            'article_data',
         ]
 
-
-class UserSignUpSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            'uuid',
-            'nickname',
-            'club_bookmarks',
-            'chatroom_bookmarks',
-            'article_bookmarks',
-        ]
-
-        read_only_fields = ['uuid', 'nickname', 'club_bookmarks', 'chatroom_bookmarks', 'article_bookmarks']
+        read_only_fields = ['uuid', 'nickname', 'club_data', 'chatroom_data', 'article_data']
 
     def create(self, validated_data):
         request_data = self.context.get('request')
