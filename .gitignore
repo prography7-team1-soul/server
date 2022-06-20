@@ -82,6 +82,4 @@ __pycache__
 .env
 static/
 fcm_service_key
-
 fcm_service_key.json
-
