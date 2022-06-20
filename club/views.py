@@ -50,7 +50,7 @@ class ClubViewSet(viewsets.ReadOnlyModelViewSet):
                                                type=openapi.TYPE_STRING),
                          ])
     @action(methods=['post'], detail=True)
-    def bookmark(self, request, pk):
+    def bookmarks(self, request, pk):
         club = self.get_object()
         user = User.objects.filter(uuid=request.user.uuid, club_bookmarks__in=[club]).first()
         if user:

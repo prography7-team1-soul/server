@@ -53,7 +53,7 @@ class NotificationViewSet(mixins.RetrieveModelMixin,
         }
         return Response(response, status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(operation_summary="알림 읽은 알림 수정 API", operation_description="request header에 uuid 필수!",
+    @swagger_auto_schema(operation_summary="읽은 알림 수정 API", operation_description="request header에 uuid 필수!",
                          manual_parameters=[
                              openapi.Parameter('uuid', openapi.IN_HEADER, description="인증을 위해 반드시 헤더에 필요합니다.",
                                                type=openapi.TYPE_STRING),

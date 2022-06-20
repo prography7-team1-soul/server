@@ -43,7 +43,7 @@ class ArticleViewSet(ReadOnlyModelViewSet):
                                                 type=openapi.TYPE_STRING)],
                          request_body=no_body)
     @action(methods=['post'], detail=True)
-    def bookmark(self, request, *args, **kwargs):
+    def bookmarks(self, request, *args, **kwargs):
         user = request.user
         if user is None:
             return Response('인증되지 않은 유저입니다.', status=401)
