@@ -44,6 +44,5 @@ def save_club_notification(sender, instance, created, **kwargs):
                 ),
                 token=registration_token,
             )
-
         response = messaging.send(message)
         print('Successfully sent message:', response)
