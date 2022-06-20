@@ -32,10 +32,15 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
     def signup(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid()
-        serializer.create(serializer.data)
-        response = {
-            "message": "유저 생성 성공",
-        }
+        res = serializer.create(serializer.data)
+        if res == 'save_fcm_token':
+            response = {
+                'message': 'fcm_token 변경'
+            }
+        else:
+            response = {
+                "message": "유저 생성 성공",
+            }
         return Response(response)
 
     @swagger_auto_schema(operation_summary="유저 개인 북마크 조회 API",
