@@ -8,9 +8,11 @@ from club.serializers import ClubDetailSerializer
 from accounts.models import User
 from rest_framework.response import Response
 
+from chat_rooms.models import ChatRoom
+
 
 class ClubViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset=Club.objects.all()
+    queryset=ChatRoom.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':

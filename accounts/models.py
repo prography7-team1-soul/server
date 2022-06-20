@@ -9,6 +9,19 @@ class User(models.Model):
     club_bookmarks = models.ManyToManyField('club.Club', blank=True)
     chatroom_bookmarks = models.ManyToManyField('chat_rooms.ChatRoom', blank=True)
     article_bookmarks = models.ManyToManyField('articles.Article', blank=True)
+    fcm_token = models.TextField(blank=True, default='', null=True)
+
+    @property
+    def club_data(self):
+        return self.club_bookmarks.values() # 필드 추가될 수 있음
+
+    @property
+    def chatroom_data(self):
+        return self.chatroom_bookmarks.values()
+
+    @property
+    def article_data(self):
+        return self.article_bookmarks.values()
 
 
 @receiver(post_save, sender=User)

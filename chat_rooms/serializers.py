@@ -1,9 +1,18 @@
 from rest_framework import serializers
 
-from server.chat_rooms.models import ChatRoom
+from chat_rooms.models import ChatRoom, Category
 
 
-class CharRoomSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = (
+            'name',
+        )
+
+
+class ChatRoomSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(read_only=True, many=True)
     class Meta:
         model = ChatRoom
         fields = (
@@ -11,4 +20,5 @@ class CharRoomSerializer(serializers.ModelSerializer):
             'title',
             'url',
             'has_password',
+            'categories',
         )
