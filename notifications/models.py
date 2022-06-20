@@ -5,6 +5,8 @@ from django.dispatch import receiver
 from accounts.models import User
 from firebase_admin import messaging
 
+from club.models import Club
+
 
 class Notification(models.Model):
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
@@ -15,7 +17,7 @@ class Notification(models.Model):
 def create_user_notification(sender, instance, created, **kwargs):
     if created:
         Notification.objects.create(user=instance, message=f"{instance.nickname}님 가입을 축하합니다.")
-        registration_token = 'cM9Uwmb3JU_DkeIewiua0C:APA91bHx7_JoHBKp4oY3I2CcSVgc9wyhfkx9w22c6ZaA17wWg0514MCnyDvq0pqL3VoPriD9U6XFYRKA-31Cn_BdwsyuE4pqyvbxSykSJFVmU9OWMluluMwIvVjb-G81UJTPCn5yVpPM'
+        registration_token = instance.fcm_token
         message = messaging.Message(
             notification=messaging.Notification(
                 title='안녕하세요 테스트 메시지 입니다.',
@@ -23,6 +25,25 @@ def create_user_notification(sender, instance, created, **kwargs):
             ),
             token=registration_token,
         )
+
+        response = messaging.send(message)
+        print('Successfully sent message:', response)
+
+
+@receiver(post_save, sender=Club)
+def save_club_notification(sender, instance, created, **kwargs):
+    users = User.objects.all()
+    for user in users:
+        if instance in user.club_bookmarks:
+            Notification.objects.create(user=user, message='club')
+            registration_token = user.fcm_token
+            message = messaging.Message(
+                notification=messaging.Notification(
+                    title='클럽 테스트 메시지입니다.',
+                    body='테스트 메시지!',
+                ),
+                token=registration_token,
+            )
 
         response = messaging.send(message)
         print('Successfully sent message:', response)
