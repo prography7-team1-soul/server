@@ -1,11 +1,7 @@
 from django.db.models import Q
 from rest_framework.mixins import ListModelMixin
-from django.shortcuts import render
-
-# Create your views here
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-
 from articles.models import Article
 from articles.serializer import ArticleSerializer
 from chat_rooms.models import ChatRoom
@@ -23,8 +19,8 @@ class ArticleSearchViewSet(ListModelMixin, GenericViewSet):
             Q(summary__icontains=search_param) |
             Q(tags__name__icontains=search_param) |
             Q(author__company__name__icontains=search_param) |
-            Q(author__part__name__icontains=search_param))
-
+            Q(author__part__name__icontains=search_param)
+        ).distinct()
         return article
 
     def list(self, request, *args, **kwargs):
@@ -42,9 +38,10 @@ class ClubSearchViewSet(ListModelMixin, GenericViewSet):
         search_param = self.request.query_params['search_param']
         club = Club.objects.filter(
             Q(name__icontains=search_param) |
-            Q(recruitment_fields__name__icontains=search_param) |
-            Q(club_description__icontains=search_param)
-        )
+            Q(club_description__icontains=search_param) |
+            Q(recruitment_fields__name__icontains=search_param)
+        ).distinct()
+
         return club
 
     def list(self, request, *args, **kwargs):
@@ -63,7 +60,7 @@ class ChatRoomSearchViewSet(ListModelMixin, GenericViewSet):
         chat_rooms = ChatRoom.objects.filter(
             Q(title__icontains=search_param) |
             Q(categories__name__icontains=search_param)
-        )
+        ).distinct()
         return chat_rooms
 
     def list(self, request, *args, **kwargs):
