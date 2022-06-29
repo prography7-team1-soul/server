@@ -1,3 +1,5 @@
+from datetime import datetime
+import datetime as date
 from django.db import models
 
 
@@ -29,6 +31,13 @@ class Club(models.Model):
     def sns(self):
         return self.sns_set.values('link')
 
+    @property
+    def is_recruitment(self):
+        today = date.datetime.today()
+        recruitment_day = self.recruitment_at.split(' ')[0]
+        recruitment_day = datetime.strptime(recruitment_day, "%Y-%m-%d")
+        _result = (today - recruitment_day).days
+        return _result < 0
 
 class SNS(models.Model):
     link = models.URLField()
