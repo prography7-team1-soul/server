@@ -70,10 +70,15 @@ class SearchView(APIView):
                 response = {
                     'article_search_list': self.get_article_objects(search_param),
                 }
+            elif app == 'link':
+                response = {
+                    'link_search_list': self.get_link_objects(search_param),
+                }
         else:
             response = {
                     'club_search_list': self.get_club_objects(search_param),
-                    'articles_search_list': self.get_article_objects(search_param),
-                    'chatrooms_search_list': self.get_chatroom_objects(search_param),
+                    'article_search_list': self.get_article_objects(search_param),
+                    'chatroom_search_list': self.get_chatroom_objects(search_param),
+                    'link_search_list': self.get_link_objects(search_param),
             }
         return Response(response)
