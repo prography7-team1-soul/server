@@ -39,7 +39,7 @@ class ArticleViewSet(ReadOnlyModelViewSet):
                          manual_parameters=[
                              openapi.Parameter('uuid', openapi.IN_HEADER, description="인증을 위해 반드시 헤더에 필요합니다.",
                                                type=openapi.TYPE_STRING),
-                            openapi.Parameter('bookmark', openapi.IN_PATH, description="반드시 bookmark가 path에 들어가야 합니다.",
+                            openapi.Parameter('bookmarks', openapi.IN_PATH, description="반드시 bookmarks가 path에 들어가야 합니다.",
                                                 type=openapi.TYPE_STRING)],
                          request_body=no_body)
     @action(methods=['post'], detail=True)
