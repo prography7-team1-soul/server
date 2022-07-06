@@ -1,43 +1,47 @@
 from rest_framework import serializers
 
-from club.models import Club, RecruitmentField
+from educations.models import Education, RecruitmentField
 
 
-class RecruitmentFieldSerializer(serializers.ModelSerializer):
+class RecruitmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecruitmentField
         fields = (
             'name',
         )
 
-class ClubSummarizeSerializer(serializers.ModelSerializer):
-    recruitment_fields = RecruitmentFieldSerializer(many=True, read_only=True)
+
+class EducationSummarizeSerializer(serializers.ModelSerializer):
+    recruitment_fields = RecruitmentSerializer(many=True, read_only=True)
+
     class Meta:
-        model = Club
+        model = Education
         fields = (
             'id',
             'name',
-            'club_description',
+            'education_description',
             'recruitment_fields',
             'image',
         )
 
-class ClubDetailSerializer(serializers.ModelSerializer):
-    recruitment_fields = RecruitmentFieldSerializer(many=True, read_only=True)
+
+class EducationDetailSerializer(serializers.ModelSerializer):
+    recruitment_fields = RecruitmentSerializer(many=True, read_only=True)
+
     class Meta:
-        model = Club
+        model = Education
         fields = (
             'id',
             'name',
-            'club_description',
+            'education_description',
             'recruitment_fields',
             'image',
             'recruitment_personnel',
             'recruitment_at',
-            'activity_description',
-            'activity_cost',
-            'activity_area',
-            'activity_period',
+            'education_description',
+            'education_cost',
+            'education_area',
+            'education_period',
             'home_url',
             'sns',
         )

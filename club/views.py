@@ -12,7 +12,7 @@ from chat_rooms.models import ChatRoom
 
 
 class ClubViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset=ChatRoom.objects.all()
+    queryset=Club.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':
