@@ -9,6 +9,8 @@ class User(models.Model):
     club_bookmarks = models.ManyToManyField('club.Club', blank=True)
     chatroom_bookmarks = models.ManyToManyField('chat_rooms.ChatRoom', blank=True)
     article_bookmarks = models.ManyToManyField('articles.Article', blank=True)
+    education_bookmarks = models.ManyToManyField('educations.Education', blank=True)
+    link_bookmarks = models.ManyToManyField('links.Link', blank=True)
     fcm_token = models.TextField(blank=True, default='', null=True)
 
     @property
@@ -22,6 +24,10 @@ class User(models.Model):
     @property
     def article_data(self):
         return self.article_bookmarks.values()
+
+    @property
+    def link_data(self):
+        return self.link_bookmarks.values()
 
 
 @receiver(post_save, sender=User)

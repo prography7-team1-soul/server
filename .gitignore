@@ -81,5 +81,6 @@ db.sqlite3
 __pycache__
 .env
 static/
-fcm_service_key
 fcm_service_key.json
+fcm_service_key
+.pytest_cache

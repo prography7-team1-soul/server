@@ -41,7 +41,8 @@ urlpatterns = [
     path('api/', include('articles.urls')),
     path('api/', include('chat_rooms.urls')),
     path('api/', include('notifications.urls')),
-    #path('markdownx/', include('markdownx.urls')),
+    path('api/', include('educations.urls')),
+    path('api/', include('search.urls')),
 ]
 
 urlpatterns += [

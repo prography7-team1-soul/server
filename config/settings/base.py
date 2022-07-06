@@ -45,6 +45,8 @@ PROJECT_APPS = [
     'chat_rooms',
     'club',
     'notifications',
+    'educations',
+    'links',
 ]
 
 THIRD_PARTY_APPS = [
@@ -157,6 +159,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
