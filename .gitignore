@@ -83,3 +83,4 @@ __pycache__
 static/
 fcm_service_key.json
 fcm_service_key
+.pytest_cache

@@ -46,7 +46,7 @@ class ArticleViewSet(ReadOnlyModelViewSet):
     def bookmarks(self, request, *args, **kwargs):
         user = request.user
         if user is None:
-            return Response('인증되지 않은 유저입니다.', status=401)
+            return Response('인증되지 않은 유저입니다.', status=403)
         instance = Article.objects.get(pk=self.kwargs['pk'])
         # 유저 아티클 북마크에 해당 아티클이 있으면 북마크 취소
         if instance in user.article_bookmarks.all():
