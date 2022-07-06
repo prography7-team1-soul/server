@@ -12,6 +12,21 @@ class Notification(models.Model):
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     message = models.TextField()
 
+    class PageType(models.TextChoices):
+        club = 'club'
+        chat_room = 'chat_room'
+        article = 'article'
+        profile = 'profile'
+
+    page_type = models.CharField(
+        max_length=15,
+        choices=PageType.choices,
+        blank=True,
+        default=''
+    )
+    page_id = models.PositiveIntegerField(blank=True, default=True)
+    is_read = models.BooleanField(default=False)
+
 
 @receiver(post_save, sender=User)
 def create_user_notification(sender, instance, created, **kwargs):
