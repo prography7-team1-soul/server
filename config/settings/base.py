@@ -45,6 +45,8 @@ PROJECT_APPS = [
     'chat_rooms',
     'club',
     'notifications',
+    'educations',
+    'links',
 ]
 
 THIRD_PARTY_APPS = [
