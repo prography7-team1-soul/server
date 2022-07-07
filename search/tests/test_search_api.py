@@ -15,37 +15,49 @@ def test_search(client):
     search_param = fake.text()
     url = base_url + f'?search_param={search_param}'
     response = client.get(url)
+    assert 'club_search_list' in response.data.keys()
+    assert 'chatroom_search_list' in response.data.keys()
+    assert 'article_search_list' in response.data.keys()
+    assert 'link_search_list' in response.data.keys()
     assert response.status_code == 200
 
     # app = club, search_param O
     app = 'club'
     url = base_url + f'?app={app}&search_param={search_param}'
     response = client.get(url)
+    assert 'club_search_list' in response.data.keys()
+    assert 'link_search_list' not in response.data.keys()
     assert response.status_code == 200
 
     # app = article, search_param O
     app = 'article'
     url = base_url + f'?app={app}&search_param={search_param}'
     response = client.get(url)
+    assert 'article_search_list' in response.data.keys()
+    assert 'club_search_list' not in response.data.keys()
     assert response.status_code == 200
 
     # app = chatroom, search_param O
     app = 'chatroom'
     url = base_url + f'?app={app}&search_param={search_param}'
     response = client.get(url)
+    assert 'chatroom_search_list' in response.data.keys()
+    assert 'article_search_list' not in response.data.keys()
     assert response.status_code == 200
 
     # app = link, search_param O
     app = 'link'
     url = base_url + f'?app={app}&search_param={search_param}'
     response = client.get(url)
+    assert 'link_search_list' in response.data.keys()
+    assert 'chatroom_search_list' not in response.data.keys()
     assert response.status_code == 200
 
     # app = club, search_param X
     app = 'club'
     url = base_url + f'?app={app}'
-    response5 = client.get(path=url)
-    assert response5.status_code == 400
+    response = client.get(path=url)
+    assert response.status_code == 400
 
     # app = article, search_param X
     app = 'article'
