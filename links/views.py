@@ -47,8 +47,8 @@ class LinkViewSet(ReadOnlyModelViewSet):
     @action(methods=['POST'], detail=True)
     def bookmarks(self, request, *args, **kwargs):
         user = request.user
-        if user is None:
-            return Response('인증되지 않은 사용자입니다.', status=401)
+        if user.is_anonymous:
+            return Response('인증되지 않은 사용자입니다.', status=403)
         instance = Link.objects.get(pk=self.kwargs['pk'])
         if instance in user.link_bookmarks.all():
             user.link_bookmarks.remove(instance)

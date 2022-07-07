@@ -43,6 +43,7 @@ urlpatterns = [
     path('api/', include('notifications.urls')),
     path('api/', include('educations.urls')),
     path('api/', include('search.urls')),
+    path('api/', include('links.urls')),
 ]
 
 urlpatterns += [

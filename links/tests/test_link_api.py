@@ -1,30 +1,29 @@
 import pytest
 from django.urls import reverse
 
-from articles.tests.factories import ArticleFactory
+from links.tests.factories import LinkFactory
 
-base_url = reverse('Articles-list')
-detail_url = reverse('Articles-detail', kwargs={'pk': '1'})
+base_url = reverse('Link-list')
+detail_url = reverse('Link-detail', kwargs={'pk': '1'})
 pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture()
-def create_article():
-    article = ArticleFactory.create()
-    return article
+def create_link():
+    return LinkFactory()
 
 
-def test_list(client):
-    response = client.get(base_url)
+def test_list(client, create_link):
+    response = client.get(path=base_url)
     assert response.status_code == 200
 
 
-def test_detail(client, create_article):
-    response = client.get(detail_url)
+def test_detail(client, create_link):
+    response = client.get(path=detail_url)
     assert response.status_code == 200
 
 
-def test_detail_bookmark(client, create_article, get_user):
+def test_detail_bookmark(client, create_link, get_user):
     url = detail_url + '/bookmarks'
     no_user_response = client.post(path=url)
     assert no_user_response.status_code == 403
@@ -32,4 +31,3 @@ def test_detail_bookmark(client, create_article, get_user):
     header = {'HTTP_uuid': get_user.uuid}
     response = client.post(path=url, **header)
     assert response.status_code == 201
-
