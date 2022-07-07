@@ -1,3 +1,4 @@
+from rest_framework import exceptions
 from rest_framework.authentication import BaseAuthentication
 
 from accounts.models import User
@@ -6,7 +7,7 @@ from accounts.models import User
 class UuidAuthentication(BaseAuthentication):
     def authenticate(self, request):
         if (
-                request.path != "/api/signup"
+                request.path != "/api/users/signup"
                 and "admin" not in request.path
                 and "swagger" not in request.path
         ):
@@ -14,7 +15,9 @@ class UuidAuthentication(BaseAuthentication):
 
             if uuid is None:
                 return None
-
-            user = User.objects.get(uuid=uuid)
+            try:
+                user = User.objects.get(uuid=uuid)
+            except User.DoesNotExist:
+                raise exceptions.AuthenticationFailed('No Such user')
             return (user, None)
         pass

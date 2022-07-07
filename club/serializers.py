@@ -40,4 +40,5 @@ class ClubDetailSerializer(serializers.ModelSerializer):
             'activity_period',
             'home_url',
             'sns',
+            'is_recruitment',
         )
