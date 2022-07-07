@@ -1,8 +1,6 @@
 from django.db.models import Q
-from rest_framework.mixins import ListModelMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet
 from articles.models import Article
 from articles.serializer import ArticleSerializer
 from chat_rooms.models import ChatRoom
@@ -52,11 +50,10 @@ class SearchView(APIView):
         return serializer.data
 
     def get(self, request):
-        response = {}
-        search_param = request.query_params['search_param']
+        search_param = request.query_params.get('search_param', None)
         app = request.query_params.get('app', None)
         if not search_param:
-            return Response('검색어가 없습니다.')
+            return Response('검색어가 없습니다.', status=400)
         if app:
             if app == 'club':
                 response = {
@@ -74,6 +71,8 @@ class SearchView(APIView):
                 response = {
                     'link_search_list': self.get_link_objects(search_param),
                 }
+            else:
+                return Response('app 이름을 다시 한번 확인해주세요.', status=400)
         else:
             response = {
                     'club_search_list': self.get_club_objects(search_param),
@@ -81,4 +80,4 @@ class SearchView(APIView):
                     'chatroom_search_list': self.get_chatroom_objects(search_param),
                     'link_search_list': self.get_link_objects(search_param),
             }
-        return Response(response)
+        return Response(response, status=200)
