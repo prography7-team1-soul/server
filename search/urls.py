@@ -6,5 +6,5 @@ search_router = SimpleRouter(trailing_slash=False)
 search_router.register('', SearchView, basename='Search')
 
 urlpatterns = [
-    path('search/', SearchView.as_view()),
+    path('search/', SearchView.as_view(), name='search-view'),
 ]

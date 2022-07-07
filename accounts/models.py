@@ -29,6 +29,10 @@ class User(models.Model):
     def link_data(self):
         return self.link_bookmarks.values()
 
+    @property
+    def is_anonymous(self):
+        return False
+
 
 @receiver(post_save, sender=User)
 def create_user(sender, instance, created, *args, **kwargs):

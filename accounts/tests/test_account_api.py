@@ -7,16 +7,6 @@ from accounts.tests.factories import UserFactory
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture()
-def client():
-    return APIClient()
-
-
-@pytest.fixture()
-def get_user():
-    return UserFactory()
-
-
 def get_user_header(get_user):
     header = {'HTTP_uuid': get_user.uuid}
     return header
