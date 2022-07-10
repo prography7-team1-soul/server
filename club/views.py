@@ -21,6 +21,8 @@ class ClubViewSet(viewsets.ReadOnlyModelViewSet):
             return ClubDetailSerializer
         elif self.action == 'bookmark':
             return None
+        elif self.action == 'notification':
+            return
 
     @swagger_auto_schema(operation_summary="it 동아리 리스트 API", request_body=no_body,
                          operation_description="- 헤더는 필요없어요!",)
@@ -60,3 +62,16 @@ class ClubViewSet(viewsets.ReadOnlyModelViewSet):
             request.user.club_bookmarks.add(club)
             return Response({'message': 'add bookmark'}, status=status.HTTP_200_OK)
         return Response({'message': 'request data error'}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['post'], detail=True)
+    def notification(self, request, pk):
+        club = self.get_object()
+        print(club)
+        user = User.objects.filter(uuid=request.user.uuid, club_notifications__in=[club]).first()
+        if user:
+            user.club_notifications.remove(club)
+            return Response({'message': 'delete notification'}, status=status.HTTP_204_NO_CONTENT)
+        elif user is None:
+            request.user.club_notifications.add(club)
+            return Response({'message': 'add notification'}, status=status.HTTP_201_CREATED)
+        return Response({'message':'request data error'}, status=status.HTTP_400_BAD_REQUEST)
