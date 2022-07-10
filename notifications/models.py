@@ -52,7 +52,7 @@ def create_user_notification(sender, instance, created, **kwargs):
 def save_club_notification(sender, instance, created, **kwargs):
     users = User.objects.all()
     for user in users:
-        if instance in user.club_bookmarks:
+        if instance in user.club_bookmarks.all():
             Notification.objects.create(user=user, message='club')
             try:
                 registration_token = user.fcm_token
@@ -63,8 +63,9 @@ def save_club_notification(sender, instance, created, **kwargs):
                     ),
                     token=registration_token,
                 )
+                response = messaging.send(message)
+                print('Successfully sent message:', response)
             except:
                 continue
 
-        response = messaging.send(message)
-        print('Successfully sent message:', response)
+

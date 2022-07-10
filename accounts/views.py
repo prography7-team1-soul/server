@@ -1,12 +1,13 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema, no_body
-from rest_framework import mixins
+from rest_framework import mixins, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from accounts.models import User
 from accounts.permissions import IsAuthenticated
 from accounts.serializer import UserSerializer
+from club.serializers import ClubSummarizeSerializer, ClubNotificationSerializer
 
 
 class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
@@ -82,3 +83,10 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
             }
 
             return Response(response)
+    @action(methods=['get'], detail=True)
+    def club_notifications(self, request, pk):
+        serializer = ClubNotificationSerializer(request.user.club_notifications, many=True)
+        response = {
+            'club_notifications': serializer.data
+        }
+        return Response(response, status=status.HTTP_200_OK)
