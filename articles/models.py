@@ -19,8 +19,20 @@ class Tag(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=15)
     company = models.ForeignKey('articles.Company', on_delete=models.PROTECT)
-    part = models.ManyToManyField('articles.Part')
+    part = models.ForeignKey('articles.Part', on_delete=models.CASCADE)
 
+    @property
+    def author_name(self):
+        return self.name
+
+    @property
+    def author_company(self):
+        return self.company.name
+
+    @property
+    def author_part(self):
+        return self.part.name
+":ASD"
 
 class Article(models.Model):
     summary = models.TextField()
