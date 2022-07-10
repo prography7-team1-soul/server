@@ -13,6 +13,17 @@ tag_name = [
     '개발자', '디자이너', '취준', '코테', '포트폴리오', '공모전'
 ]
 
+part_name = [
+    '개발자', '디자이너', '기획자'
+]
+
+
+class PartFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Part
+
+    name = fake.job()
+
 
 class TagFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -34,6 +45,7 @@ class AuthorFactory(factory.django.DjangoModelFactory):
 
     name = fake.name()
     company = factory.SubFactory(CompanyFactory)
+    part = factory.SubFactory(PartFactory)
 
 
 class ArticleFactory(factory.django.DjangoModelFactory):
