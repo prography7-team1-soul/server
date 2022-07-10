@@ -7,6 +7,8 @@ from chat_rooms.models import ChatRoom
 from chat_rooms.serializers import ChatRoomSerializer
 from club.models import Club
 from club.serializers import ClubSummarizeSerializer
+from educations.models import Education
+from educations.serializers import EducationDetailSerializer
 from links.models import Link
 from links.serializer import LinkSerializer
 
@@ -49,6 +51,16 @@ class SearchView(APIView):
         serializer = LinkSerializer(objects, many=True)
         return serializer.data
 
+    def get_education_objects(self, search_param):
+        objects = Education.objects.filter(
+            Q(name__icontains=search_param) |
+            Q(description__icontains=search_param) |
+            Q(recruitment_fields__name__icontains=search_param)
+        ).distinct()
+
+        serializer = EducationDetailSerializer(objects, many=True)
+        return serializer.data
+
     def get(self, request):
         search_param = request.query_params.get('search_param', None)
         app = request.query_params.get('app', None)
@@ -71,6 +83,10 @@ class SearchView(APIView):
                 response = {
                     'link_search_list': self.get_link_objects(search_param),
                 }
+            elif app == 'education':
+                response = {
+                    'education_search_list': self.get_education_objects(search_param),
+                }
             else:
                 return Response('app 이름을 다시 한번 확인해주세요.', status=400)
         else:
@@ -79,5 +95,6 @@ class SearchView(APIView):
                     'article_search_list': self.get_article_objects(search_param),
                     'chatroom_search_list': self.get_chatroom_objects(search_param),
                     'link_search_list': self.get_link_objects(search_param),
+                    'education_search_list': self.get_education_objects(search_param),
             }
         return Response(response, status=200)
