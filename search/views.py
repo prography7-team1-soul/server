@@ -15,14 +15,6 @@ from links.models import Link
 from links.serializer import LinkSerializer
 
 
-@swagger_auto_schema(operation_summary="검색 API", request_body=no_body,
-                         operation_description="- 따로 인증이 필요하지 않아 uuid 등을 요구하지 않습니다.",
-                         manual_parameters=[
-                             openapi.Parameter('app', openapi.IN_QUERY, description="어떤 카테고리에 검색을 할 것인지 명시할 때 필요합니다. 없으면 전체 카테고리 검색 결과가 반환되어용",
-                                               type=openapi.TYPE_STRING),
-                             openapi.Parameter('search_param', openapi.IN_QUERY, description="검색어에 해당하는 파라미터 입니당. 없으면 400 에러가 발생하고 검색이 되지 않습니다!",
-                                               type=openapi.TYPE_STRING)
-                         ])
 class SearchView(APIView):
     def get_club_objects(self, search_param):
         objects = Club.objects.filter(
@@ -71,6 +63,16 @@ class SearchView(APIView):
         serializer = EducationDetailSerializer(objects, many=True)
         return serializer.data
 
+    @swagger_auto_schema(operation_summary="검색 API", request_body=no_body,
+                         operation_description="- 따로 인증이 필요하지 않아 uuid 등을 요구하지 않습니다.",
+                         manual_parameters=[
+                             openapi.Parameter('app', openapi.IN_QUERY,
+                                               description="어떤 카테고리에 검색을 할 것인지 명시할 때 필요합니다. 없으면 전체 카테고리 검색 결과가 반환되어용",
+                                               type=openapi.TYPE_STRING),
+                             openapi.Parameter('search_param', openapi.IN_QUERY,
+                                               description="검색어에 해당하는 파라미터 입니당. 없으면 400 에러가 발생하고 검색이 되지 않습니다!",
+                                               type=openapi.TYPE_STRING)
+                         ])
     def get(self, request):
         search_param = request.query_params.get('search_param', None)
         app = request.query_params.get('app', None)
