@@ -37,6 +37,7 @@ class ClubSummarizeSerializer(serializers.ModelSerializer):
             'recruitment_fields',
             'image',
             'is_bookmark',
+            'is_recruitment',
         )
 
     def get_is_bookmark(self, obj):
