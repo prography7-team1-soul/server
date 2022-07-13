@@ -55,6 +55,7 @@ class ClubSummarizeSerializer(serializers.ModelSerializer):
 class ClubDetailSerializer(serializers.ModelSerializer):
     recruitment_fields = RecruitmentFieldSerializer(many=True, read_only=True)
     is_bookmark = serializers.SerializerMethodField(read_only=True)
+    is_notification = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Club
         fields = (
@@ -73,6 +74,7 @@ class ClubDetailSerializer(serializers.ModelSerializer):
             'sns',
             'is_recruitment',
             'is_bookmark',
+            'is_notification',
         )
 
     def get_is_bookmark(self, obj):
@@ -80,6 +82,17 @@ class ClubDetailSerializer(serializers.ModelSerializer):
         print(user)
         if user != None:
             is_bookmark = User.objects.filter(id=user.id, club_bookmarks__in=[obj]).first()
+            if is_bookmark is None:
+                return False
+            else:
+                return True
+        else:
+            return False
+
+    def get_is_notification(self, obj):
+        user = self.context.get("request").user
+        if user != None:
+            is_bookmark = User.objects.filter(id=user.id, club_notifications__in=[obj]).first()
             if is_bookmark is None:
                 return False
             else:
