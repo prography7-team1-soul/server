@@ -4,31 +4,20 @@ from accounts.models import User
 from chat_rooms.models import ChatRoom, Category
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = (
-            'name',
-        )
-
-
-class ChatRoomSerializer(serializers.ModelSerializer):
-    categories = CategorySerializer(read_only=True, many=True)
+class ChatRoomDetailSerializer(serializers.ModelSerializer):
     is_bookmark = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = ChatRoom
         fields = (
-            'id',
             'title',
             'url',
             'has_password',
-            'categories',
             'is_bookmark',
         )
 
     def get_is_bookmark(self, obj):
         user = self.context.get("request").user
-        print(user)
         if user != None:
             is_bookmark = User.objects.filter(id=user.id, chatroom_bookmarks__in=[obj]).first()
             if is_bookmark is None:
@@ -37,3 +26,20 @@ class ChatRoomSerializer(serializers.ModelSerializer):
                 return True
         else:
             return False
+
+
+class ChatRoomSerializer(serializers.ModelSerializer):
+    chat_rooms = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Category
+        fields = (
+            'id',
+            'category',
+            'chat_rooms',
+        )
+
+    def get_chat_rooms(self, obj):
+        serializer = ChatRoomDetailSerializer(obj.chatroom_set, many=True,
+                                              context={'request': self.context.get('request')})
+        return serializer.data

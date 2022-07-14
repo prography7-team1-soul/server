@@ -5,11 +5,7 @@ class ChatRoom(models.Model):
     title = models.CharField(max_length=31)
     url = models.URLField()
     has_password = models.BooleanField(default=False)
-    categories = models.ManyToManyField('chat_rooms.Category')
-
-    @property
-    def category_list(self):
-        return self.category_set.values('name')
+    category = models.ForeignKey('chat_rooms.Category', on_delete=models.CASCADE)
 
 
 class Category(models.Model):
@@ -21,3 +17,7 @@ class Category(models.Model):
         max_length=15,
         choices=CategoryType.choices
     )
+
+    @property
+    def category(self):
+        return self.name
