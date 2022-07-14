@@ -23,8 +23,14 @@ def is_chat_room_bookmark_view(request, pk):
 
 
 class ChatRoomListView(mixins.ListModelMixin, GenericViewSet):
-    queryset = Category.objects.all()
     serializer_class = ChatRoomSerializer
+
+    def get_queryset(self):
+        category = self.request.query_params.get('category', None)
+        if category:
+            return Category.objects.filter(name=category)
+        else:
+            return Category.objects.all()
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
