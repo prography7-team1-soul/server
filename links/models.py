@@ -12,12 +12,17 @@ class Source(models.Model):
     )
 
 
+
 class Category(models.Model):
     name = models.CharField(max_length=15)
+
+    @property
+    def category(self):
+        return self.name
 
 
 class Link(models.Model):
     title = models.TextField()
     source = models.ManyToManyField('links.Source')
-    category = models.ManyToManyField('links.Category')
+    category = models.ForeignKey('links.Category', on_delete=models.PROTECT)
     url = models.URLField()
