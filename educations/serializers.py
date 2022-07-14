@@ -47,11 +47,12 @@ class EducationDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'education_description',
+            'description',
             'recruitment_fields',
             'image',
             'recruitment_personnel',
             'recruitment_at',
+            'education_description',
             'education_description',
             'education_cost',
             'education_area',
