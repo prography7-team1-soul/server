@@ -1,3 +1,4 @@
+from django.db.models import Count
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema, no_body
 from rest_framework import mixins, status
@@ -17,15 +18,19 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
     ---
     """
 
-    queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
+
+    def get_queryset(self):
+        bookmark_count = Count('club_bookmarks') + Count('chatroom_bookmarks') + Count('article_bookmarks') + Count('education_bookmarks') + Count('link_bookmarks')
+        #noti_count = Count('club_notification') + Count('education_notification')
+        return User.objects.annotate(notification_count=Count('club_notifications'), bookmarks_count=bookmark_count)
 
     @swagger_auto_schema(operation_summary="회원가입 API", request_body=no_body,
                          operation_description="- 유저 생성을 위해 헤더에 uuid가 반드시 필요합니다. 없을 경우 {400: 잘못된 요청} 에러가 발생합니다.",
                          manual_parameters=[
                              openapi.Parameter('uuid', openapi.IN_HEADER, description="인증을 위해 반드시 헤더에 필요합니다.",
-                                               type=openapi.TYPE_STRING),
+                                               type=openapi.TYPE_STRING, required=True),
                              openapi.Parameter('signup', openapi.IN_PATH, description="반드시 signup이 path에 들어가야 합니다.",
                                                type=openapi.TYPE_STRING)
                          ])
@@ -51,12 +56,9 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
                          request_body=no_body,
                          manual_parameters=[
                              openapi.Parameter('uuid', openapi.IN_HEADER, description="인증을 위해 반드시 헤더에 필요합니다.",
-                                               type=openapi.TYPE_STRING),
-                             openapi.Parameter('bookmarks', openapi.IN_QUERY,
-                                               description="url path에 bookmarks가 반드시 들어가야 합니다.",
-                                               type=openapi.TYPE_STRING),
+                                               type=openapi.TYPE_STRING, required=True),
                              openapi.Parameter('app name', openapi.IN_QUERY, description="어떤 앱에 대한 북마크인지 반드시 query 형태로 필요합니다.",
-                                                type=openapi.TYPE_STRING)
+                                                type=openapi.TYPE_STRING, required=True)
                          ])
     @action(methods=['get'], detail=True)
     def bookmarks(self, request, *args, **kwargs):

@@ -1,21 +1,22 @@
 from rest_framework import serializers
 from accounts.models import User
-from links.models import Link, Source, Category
+from links.models import Link, SourceField, Category
 
 
-class SourceSerializer(serializers.ModelSerializer):
+class SourceFieldSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Source
-        fields = ['name']
+        model = SourceField
+        fields = ['name', ]
 
 
 class LinkDetailSerializer(serializers.ModelSerializer):
     is_bookmark = serializers.SerializerMethodField(read_only=True)
-    source = SourceSerializer(read_only=True)
+    source = SourceFieldSerializer(read_only=True, many=True)
     class Meta:
         model = Link
-        fields =[
+        fields = [
             'title',
+            'description',
             'source',
             'url',
             'is_bookmark',
