@@ -71,7 +71,7 @@ class SearchView(APIView):
                                                type=openapi.TYPE_STRING),
                              openapi.Parameter('search_param', openapi.IN_QUERY,
                                                description="검색어에 해당하는 파라미터 입니당. 없으면 400 에러가 발생하고 검색이 되지 않습니다!",
-                                               type=openapi.TYPE_STRING)
+                                               type=openapi.TYPE_STRING, required=True)
                          ])
     def get(self, request):
         search_param = request.query_params.get('search_param', None)

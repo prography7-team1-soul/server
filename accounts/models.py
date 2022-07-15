@@ -31,6 +31,10 @@ class User(models.Model):
         return self.link_bookmarks.values()
 
     @property
+    def education_data(self):
+        return self.education_bookmarks.values()
+
+    @property
     def is_anonymous(self):
         return False
 

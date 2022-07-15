@@ -3,6 +3,8 @@ from accounts.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    notification_count = serializers.IntegerField()
+    bookmarks_count = serializers.IntegerField()
     class Meta:
         model = User
         fields = [
@@ -11,9 +13,13 @@ class UserSerializer(serializers.ModelSerializer):
             'club_data',
             'chatroom_data',
             'article_data',
+            'link_data',
+            'education_data',
+            'notification_count',
+            'bookmarks_count',
         ]
 
-        read_only_fields = ['uuid', 'nickname', 'club_data', 'chatroom_data', 'article_data']
+        read_only_fields = ['uuid', 'nickname', 'club_data', 'chatroom_data', 'article_data', 'link_data', 'education_data']
 
     def create(self, validated_data):
         request_data = self.context.get('request')
