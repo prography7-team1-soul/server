@@ -15,6 +15,7 @@ class ChatRoomDetailSerializer(serializers.ModelSerializer):
             'url',
             'has_password',
             'is_bookmark',
+            'image',
         )
 
     def get_is_bookmark(self, obj):
