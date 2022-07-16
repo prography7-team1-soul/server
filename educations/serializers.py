@@ -80,6 +80,7 @@ class EducationDetailSerializer(serializers.ModelSerializer):
     is_bookmark = serializers.SerializerMethodField(read_only=True)
     is_notification = serializers.SerializerMethodField(read_only=True)
     sns = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Education
         fields = (
