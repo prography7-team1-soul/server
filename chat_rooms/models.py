@@ -17,6 +17,7 @@ class Category(models.Model):
         max_length=15,
         choices=CategoryType.choices
     )
+    description = models.TextField(default='')
 
     @property
     def category(self):
