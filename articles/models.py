@@ -32,7 +32,7 @@ class Author(models.Model):
     @property
     def author_part(self):
         return self.part.name
-":ASD"
+
 
 class Article(models.Model):
     summary = models.TextField()
