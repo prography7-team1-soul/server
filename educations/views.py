@@ -57,3 +57,15 @@ class EducationViewSet(viewsets.ReadOnlyModelViewSet):
             request.user.education_bookmarks.add(education)
             return Response({'message': 'add bookmark'}, status=status.HTTP_200_OK)
         return Response({'message': 'request data error'}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['post'], detail=True)
+    def notification(self, request, pk):
+        education = self.get_object()
+        user = User.objects.filter(uuid=request.user.uuid, education_notifications__in=[education]).first()
+        if user:
+            user.education_notifications.remove(education)
+            return Response({'message': 'delete notification'}, status=status.HTTP_204_NO_CONTENT)
+        elif user is None:
+            request.user.education_notifications.add(education)
+            return Response({'message': 'add notification'}, status=status.HTTP_201_CREATED)
+        return Response({'message': 'request data error'}, status=status.HTTP_400_BAD_REQUEST)

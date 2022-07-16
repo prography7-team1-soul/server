@@ -14,6 +14,8 @@ class RecruitmentFieldSerializer(serializers.ModelSerializer):
 
 class ClubNotificationSerializer(serializers.ModelSerializer):
     recruitment_fields = RecruitmentFieldSerializer(many=True, read_only=True)
+    is_bookmark = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Club
         fields = (
@@ -22,7 +24,19 @@ class ClubNotificationSerializer(serializers.ModelSerializer):
             'club_description',
             'recruitment_fields',
             'image',
+            'is_bookmark',
         )
+
+    def get_is_bookmark(self, obj):
+        user = self.context.get("request").user
+        if user != None:
+            is_bookmark = User.objects.filter(id=user.id, club_bookmarks__in=[obj]).first()
+            if is_bookmark is None:
+                return False
+            else:
+                return True
+        else:
+            return False
 
 
 class ClubSummarizeSerializer(serializers.ModelSerializer):

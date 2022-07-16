@@ -10,6 +10,7 @@ class ChatRoomDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = (
+            'id',
             'title',
             'url',
             'has_password',

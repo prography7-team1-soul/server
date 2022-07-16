@@ -13,6 +13,8 @@ class User(models.Model):
     link_bookmarks = models.ManyToManyField('links.Link', blank=True)
     fcm_token = models.TextField(blank=True, default='', null=True)
     club_notifications = models.ManyToManyField('club.Club', blank=True, related_name='user_club_notifications')
+    education_notifications = models.ManyToManyField('educations.Education', blank=True,
+                                                     related_name='user_education_notifications')
 
     @property
     def club_data(self):

@@ -1,5 +1,6 @@
 from django.db import models
-import datetime
+from datetime import datetime
+import datetime as date
 
 
 class RecruitmentField(models.Model):
@@ -32,8 +33,9 @@ class Education(models.Model):
 
     @property
     def is_recruitment(self):
-        today = datetime.date.today()
+        today = date.datetime.today()
         recruitment_day = self.recruitment_at.split(' ')[0]
+        recruitment_day = datetime.strptime(recruitment_day, "%Y-%m-%d")
         _result = (today - recruitment_day).days
         return _result < 0
 
