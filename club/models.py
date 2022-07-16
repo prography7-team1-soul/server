@@ -28,10 +28,6 @@ class Club(models.Model):
     home_url = models.URLField()
 
     @property
-    def sns(self):
-        return self.sns_set.values('link', 'image')
-
-    @property
     def is_recruitment(self):
         today = date.datetime.today()
         recruitment_day = self.recruitment_at.split(' ')[0]
@@ -43,4 +39,4 @@ class Club(models.Model):
 class SNS(models.Model):
     link = models.URLField()
     club = models.ForeignKey('club.Club', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='club', default='')
+    image = models.ImageField(upload_to='club')

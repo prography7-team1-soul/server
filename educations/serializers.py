@@ -79,6 +79,7 @@ class EducationDetailSerializer(serializers.ModelSerializer):
     recruitment_fields = RecruitmentSerializer(many=True, read_only=True)
     is_bookmark = serializers.SerializerMethodField(read_only=True)
     is_notification = serializers.SerializerMethodField(read_only=True)
+    sns = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Education
         fields = (
@@ -121,3 +122,8 @@ class EducationDetailSerializer(serializers.ModelSerializer):
                 return True
         else:
             return False
+
+    def get_sns(self, obj):
+        sns = obj.sns_set
+        serializer = SnsSerializer(sns, many=True)
+        return serializer.data

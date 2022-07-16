@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from accounts.models import User
-from club.models import Club, RecruitmentField
+from club.models import Club, RecruitmentField, SNS
 
 
 class RecruitmentFieldSerializer(serializers.ModelSerializer):
@@ -56,7 +56,6 @@ class ClubSummarizeSerializer(serializers.ModelSerializer):
 
     def get_is_bookmark(self, obj):
         user = self.context.get("request").user
-        print(user)
         if user != None:
             is_bookmark = User.objects.filter(id=user.id, club_bookmarks__in=[obj]).first()
             if is_bookmark is None:
@@ -66,10 +65,23 @@ class ClubSummarizeSerializer(serializers.ModelSerializer):
         else:
             return False
 
+
+class SnsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SNS
+        fields = (
+            'id',
+            'link',
+            'image',
+        )
+
+
 class ClubDetailSerializer(serializers.ModelSerializer):
     recruitment_fields = RecruitmentFieldSerializer(many=True, read_only=True)
     is_bookmark = serializers.SerializerMethodField(read_only=True)
     is_notification = serializers.SerializerMethodField(read_only=True)
+    sns = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Club
         fields = (
@@ -93,7 +105,6 @@ class ClubDetailSerializer(serializers.ModelSerializer):
 
     def get_is_bookmark(self, obj):
         user = self.context.get("request").user
-        print(user)
         if user != None:
             is_bookmark = User.objects.filter(id=user.id, club_bookmarks__in=[obj]).first()
             if is_bookmark is None:
@@ -113,3 +124,8 @@ class ClubDetailSerializer(serializers.ModelSerializer):
                 return True
         else:
             return False
+
+    def get_sns(self, obj):
+        sns = obj.sns_set
+        serializer = SnsSerializer(sns, many=True)
+        return serializer.data

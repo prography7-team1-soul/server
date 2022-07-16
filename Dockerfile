@@ -9,7 +9,6 @@ ADD . /server
 
 WORKDIR /server
 
-RUN source venv/bin/activate
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN pip install gunicorn

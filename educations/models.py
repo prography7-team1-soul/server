@@ -43,4 +43,4 @@ class Education(models.Model):
 class SNS(models.Model):
     link = models.URLField()
     club = models.ForeignKey('educations.Education', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='educations', default='')
+    image = models.ImageField(upload_to='educations')
