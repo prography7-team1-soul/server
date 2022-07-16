@@ -1,7 +1,17 @@
 from rest_framework import serializers
 
 from accounts.models import User
-from educations.models import Education, RecruitmentField
+from educations.models import Education, RecruitmentField, SNS
+
+
+class SnsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SNS
+        fields = (
+            'id',
+            'image',
+            'link',
+        )
 
 
 class RecruitmentSerializer(serializers.ModelSerializer):

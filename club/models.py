@@ -22,14 +22,14 @@ class Club(models.Model):
     recruitment_personnel = models.PositiveIntegerField()
     recruitment_at = models.CharField(max_length=31)
     activity_description = models.TextField()
-    activity_cost = models.PositiveIntegerField()
+    activity_cost = models.TextField()
     activity_area = models.CharField(max_length=31)
     activity_period = models.CharField(max_length=31)
     home_url = models.URLField()
 
     @property
     def sns(self):
-        return self.sns_set.values('link')
+        return self.sns_set.values('link', 'image')
 
     @property
     def is_recruitment(self):
@@ -39,6 +39,8 @@ class Club(models.Model):
         _result = (today - recruitment_day).days
         return _result < 0
 
+
 class SNS(models.Model):
     link = models.URLField()
     club = models.ForeignKey('club.Club', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='club', default='')
