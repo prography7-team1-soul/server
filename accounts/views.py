@@ -8,6 +8,7 @@ from accounts.models import User
 from accounts.permissions import IsAuthenticated
 from accounts.serializer import UserSerializer
 from club.serializers import ClubSummarizeSerializer, ClubNotificationSerializer
+from educations.serializers import EducationNotificationSerializer
 
 
 class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
@@ -83,10 +84,22 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
             }
 
             return Response(response)
-    @action(methods=['get'], detail=True)
-    def club_notifications(self, request, pk):
-        serializer = ClubNotificationSerializer(request.user.club_notifications, many=True)
+
+    @action(methods=['get'], detail=True, url_path='profile/notifications')
+    def profile_notifications(self, request, pk):
+        category = request.query_params.get('category', None)
+        if category:
+            if category=='club':
+                serializer = ClubNotificationSerializer(request.user.club_notifications, many=True, context={'request':request})
+            elif category=='education':
+                serializer = EducationNotificationSerializer(request.user.education_notifications, many=True, context={'request':request})
+                print(serializer.data)
+        else:
+            response = {
+                'message': 'Bad Request',
+            }
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
         response = {
-            'club_notifications': serializer.data
+            category+'_notifications': serializer.data
         }
         return Response(response, status=status.HTTP_200_OK)
