@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from articles.models import Article
 from articles.serializer import ArticleSerializer
 from chat_rooms.models import ChatRoom
-from chat_rooms.serializers import ChatRoomSerializer
+from chat_rooms.serializers import ChatRoomDetailSerializer
 from club.models import Club
 from club.serializers import ClubSummarizeSerializer
 from educations.models import Education
@@ -30,7 +30,7 @@ class SearchView(APIView):
                 Q(title__icontains=search_param) |
                 Q(category__name__icontains=search_param)
             ).distinct()
-        serializer = ChatRoomSerializer(objects, many=True, context={'request': self.request})
+        serializer = ChatRoomDetailSerializer(objects, many=True, context={'request': self.request})
         return serializer.data
 
     def get_article_objects(self, search_param):
