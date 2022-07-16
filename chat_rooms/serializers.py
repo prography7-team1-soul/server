@@ -37,6 +37,7 @@ class ChatRoomSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'category',
+            'description',
             'chat_rooms',
         )
 
