@@ -22,14 +22,14 @@ class Education(models.Model):
     recruitment_personnel = models.PositiveIntegerField()
     recruitment_at = models.CharField(max_length=31)
     education_description = models.TextField()
-    education_cost = models.PositiveIntegerField()
+    education_cost = models.TextField()
     education_area = models.CharField(max_length=31)
     education_period = models.CharField(max_length=31)
     home_url = models.URLField()
 
     @property
     def sns(self):
-        return self.sns_set.values('link')
+        return self.sns_set.values('link', 'image')
 
     @property
     def is_recruitment(self):
@@ -43,3 +43,4 @@ class Education(models.Model):
 class SNS(models.Model):
     link = models.URLField()
     club = models.ForeignKey('educations.Education', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='educations', default='')
