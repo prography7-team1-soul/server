@@ -6,6 +6,7 @@ class ChatRoom(models.Model):
     url = models.URLField()
     has_password = models.BooleanField(default=False)
     category = models.ForeignKey('chat_rooms.Category', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='chat_room')
 
 
 class Category(models.Model):
