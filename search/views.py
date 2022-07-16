@@ -12,7 +12,7 @@ from club.serializers import ClubSummarizeSerializer
 from educations.models import Education
 from educations.serializers import EducationDetailSerializer
 from links.models import Link
-from links.serializer import LinkSerializer
+from links.serializer import LinkDetailSerializer
 
 
 class SearchView(APIView):
@@ -22,15 +22,15 @@ class SearchView(APIView):
                 Q(club_description__contains=search_param) |
                 Q(recruitment_fields__name__contains=search_param)
             ).distinct()
-        serializer = ClubSummarizeSerializer(objects, many=True)
+        serializer = ClubSummarizeSerializer(objects, many=True, context={'request': self.request})
         return serializer.data
 
     def get_chatroom_objects(self, search_param):
         objects = ChatRoom.objects.filter(
                 Q(title__icontains=search_param) |
-                Q(categories__name__icontains=search_param)
+                Q(category__name__icontains=search_param)
             ).distinct()
-        serializer = ChatRoomSerializer(objects, many=True)
+        serializer = ChatRoomSerializer(objects, many=True, context={'request': self.request})
         return serializer.data
 
     def get_article_objects(self, search_param):
@@ -40,7 +40,7 @@ class SearchView(APIView):
                 Q(author__company__name__icontains=search_param) |
                 Q(author__part__name__icontains=search_param)
             ).distinct()
-        serializer = ArticleSerializer(objects, many=True)
+        serializer = ArticleSerializer(objects, many=True, context={'request': self.request})
         return serializer.data
 
     def get_link_objects(self, search_param):
@@ -50,7 +50,7 @@ class SearchView(APIView):
             Q(category__name__icontains=search_param)
         ).distinct()
 
-        serializer = LinkSerializer(objects, many=True)
+        serializer = LinkDetailSerializer(objects, many=True, context={'request': self.request})
         return serializer.data
 
     def get_education_objects(self, search_param):
@@ -60,7 +60,7 @@ class SearchView(APIView):
             Q(recruitment_fields__name__icontains=search_param)
         ).distinct()
 
-        serializer = EducationDetailSerializer(objects, many=True)
+        serializer = EducationDetailSerializer(objects, many=True, context={'request': self.request})
         return serializer.data
 
     @swagger_auto_schema(operation_summary="검색 API", request_body=no_body,
