@@ -14,6 +14,7 @@ class SourceField(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=15)
+    description = models.TextField(default='')
 
     @property
     def category(self):

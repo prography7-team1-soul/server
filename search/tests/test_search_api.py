@@ -19,6 +19,7 @@ def test_search(client):
     assert 'chatroom_search_list' in response.data.keys()
     assert 'article_search_list' in response.data.keys()
     assert 'link_search_list' in response.data.keys()
+    assert 'education_search_list' in response.data.keys()
     assert response.status_code == 200
 
     # app = club, search_param O
@@ -26,7 +27,7 @@ def test_search(client):
     url = base_url + f'?app={app}&search_param={search_param}'
     response = client.get(url)
     assert 'club_search_list' in response.data.keys()
-    assert 'link_search_list' not in response.data.keys()
+    assert 'education_search_list' not in response.data.keys()
     assert response.status_code == 200
 
     # app = article, search_param O
@@ -53,6 +54,12 @@ def test_search(client):
     assert 'chatroom_search_list' not in response.data.keys()
     assert response.status_code == 200
 
+    app = 'education'
+    url = base_url + f'?app={app}&search_param={search_param}'
+    response = client.get(url)
+    assert 'education_search_list' in response.data.keys()
+    assert 'link_search_list' not in response.data.keys()
+
     # app = club, search_param X
     app = 'club'
     url = base_url + f'?app={app}'
@@ -73,6 +80,11 @@ def test_search(client):
 
     # app = link, search_param X
     app = 'link'
+    url = base_url + f'?app={app}'
+    response = client.get(path=url)
+    assert response.status_code == 400
+
+    app = 'education'
     url = base_url + f'?app={app}'
     response = client.get(path=url)
     assert response.status_code == 400
