@@ -13,6 +13,9 @@ class RecruitmentField(models.Model):
         choices=FieldType.choices
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Club(models.Model):
     name = models.CharField(max_length=31)
@@ -35,8 +38,14 @@ class Club(models.Model):
         _result = (today - recruitment_day).days
         return _result < 0
 
+    def __str__(self):
+        return self.name
+
 
 class SNS(models.Model):
     link = models.URLField()
     club = models.ForeignKey('club.Club', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='club')
+
+    def __str__(self):
+        return f'{self.club.name}동아리 SNS'
