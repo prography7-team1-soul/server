@@ -44,6 +44,7 @@ class LinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = [
+            'id',
             'category',
             'description',
             'links',
