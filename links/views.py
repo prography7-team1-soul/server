@@ -42,14 +42,17 @@ class LinkViewSet(mixins.ListModelMixin, GenericViewSet):
         user = request.user
         if user.is_anonymous:
             return Response('인증되지 않은 사용자입니다.', status=403)
-        instance = Link.objects.get(pk=self.kwargs['pk'])
+        try:
+            instance = Link.objects.get(pk=self.kwargs['pk'])
+        except:
+            return Response("Not Found", status=404)
         if instance in user.link_bookmarks.all():
             user.link_bookmarks.remove(instance)
             user.save()
             response = {
                 'message': '북마크 해제',
             }
-            return Response(response, status=201)
+            return Response(response, status=204)
         else:
             user.link_bookmarks.add(instance)
             user.save()
