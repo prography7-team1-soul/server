@@ -105,3 +105,12 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
             category+'_notifications': serializer.data
         }
         return Response(response, status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=False, url_path='check-user')
+    def check_user(self, request):
+        uuid = request.headers.get('uuid', None)
+        if uuid:
+            user = User.objects.get(uuid=uuid)
+            return Response({'id': user.id}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error_message': 'none uuid'}, status=status.HTTP_400_BAD_REQUEST)
