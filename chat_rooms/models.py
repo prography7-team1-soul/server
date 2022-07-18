@@ -8,6 +8,9 @@ class ChatRoom(models.Model):
     category = models.ForeignKey('chat_rooms.Category', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='chat_room')
 
+    def __str__(self):
+        return self.title
+
 
 class Category(models.Model):
     class CategoryType(models.TextChoices):
@@ -22,4 +25,7 @@ class Category(models.Model):
 
     @property
     def category(self):
+        return self.name
+
+    def __str__(self):
         return self.name

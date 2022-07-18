@@ -1,15 +1,18 @@
 from django.db import models
 
 
-class SourceField(models.Model):
-    class FieldType(models.TextChoices):
-        WebSite = '웹사이트'
-        SNS = 'SNS'
-        Article = '아티클'
-    name = models.CharField(
-        max_length=15,
-        choices=FieldType.choices
-    )
+class Tag(models.Model):
+    name = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.name
+
+
+class Source(models.Model):
+    name = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.name
 
 
 class Category(models.Model):
@@ -20,10 +23,16 @@ class Category(models.Model):
     def category(self):
         return self.name
 
+    def __str__(self):
+        return self.name
+
 
 class Link(models.Model):
     title = models.TextField()
-    description = models.TextField()
-    source = models.ManyToManyField('links.SourceField')
+    tags = models.ManyToManyField('links.Tag')
+    source = models.ForeignKey('links.Source', on_delete=models.CASCADE, default='')
     category = models.ForeignKey('links.Category', on_delete=models.PROTECT)
     url = models.URLField()
+
+    def __str__(self):
+        return self.title

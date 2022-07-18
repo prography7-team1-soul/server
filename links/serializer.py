@@ -1,29 +1,43 @@
 from rest_framework import serializers
 from accounts.models import User
-from links.models import Link, SourceField, Category
+from links.models import Link, Source, Category, Tag
 
 
-class SourceFieldSerializer(serializers.ModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SourceField
-        fields = ['name', ]
+        model = Source
+        fields = [
+            'id',
+            'name',
+        ]
+
+
+class SourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Source
+        fields = [
+            'id',
+            'name',
+        ]
 
 
 class LinkDetailSerializer(serializers.ModelSerializer):
     is_bookmark = serializers.SerializerMethodField(read_only=True)
-    source = SourceFieldSerializer(read_only=True, many=True)
+    tags = TagSerializer(read_only=True, many=True)
+    source = SourceSerializer(read_only=True)
+
     class Meta:
         model = Link
         fields = [
             'id',
             'title',
-            'description',
             'source',
+            'tags',
             'url',
             'is_bookmark',
         ]
 
-        read_only_fields = ['title', 'source', 'url']
+        read_only_fields = ['title', 'source', 'url', 'tags', 'id']
 
     def get_is_bookmark(self, obj):
         user = self.context.get("request").user

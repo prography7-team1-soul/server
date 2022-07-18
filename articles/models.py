@@ -11,9 +11,15 @@ class Part(models.Model):
         choices=FieldType.choices
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=7)
+
+    def __str__(self):
+        return self.name
 
 
 class Author(models.Model):
@@ -33,6 +39,9 @@ class Author(models.Model):
     def author_part(self):
         return self.part.name
 
+    def __str__(self):
+        return self.name
+
 
 class Article(models.Model):
     summary = models.TextField()
@@ -41,6 +50,12 @@ class Article(models.Model):
     tags = models.ManyToManyField('articles.Tag', blank=True)
     image = models.ImageField(upload_to='articles')
 
+    def __str__(self):
+        return self.summary
+
 
 class Company(models.Model):
     name = models.CharField(max_length=31)
+
+    def __str__(self):
+        return self.name

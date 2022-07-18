@@ -1,8 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from links.models import Link, Category, SourceField
+from links.models import Link, Category, Source, Tag
 
 admin.site.register(Link)
 admin.site.register(Category)
-admin.site.register(SourceField)
+admin.site.register(Source)
+admin.site.register(Tag)
