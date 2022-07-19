@@ -40,6 +40,15 @@ class User(models.Model):
     def is_anonymous(self):
         return False
 
+    @property
+    def bookmark_count(self):
+        return self.club_bookmarks.count() + self.article_bookmarks.count() + self.chatroom_bookmarks.count() \
+               + self.education_bookmarks.count() + self.link_bookmarks.count()
+
+    @property
+    def notification_count(self):
+        return self.education_notifications.count() + self.club_notifications.count()
+
 
 @receiver(post_save, sender=User)
 def create_user(sender, instance, created, *args, **kwargs):
