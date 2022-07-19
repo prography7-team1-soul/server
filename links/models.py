@@ -30,7 +30,7 @@ class Category(models.Model):
 class Link(models.Model):
     title = models.TextField()
     tags = models.ManyToManyField('links.Tag')
-    source = models.ForeignKey('links.Source', on_delete=models.CASCADE, default='')
+    source = models.ForeignKey('links.Source', on_delete=models.CASCADE, null=True)
     category = models.ForeignKey('links.Category', on_delete=models.PROTECT)
     url = models.URLField()
 
