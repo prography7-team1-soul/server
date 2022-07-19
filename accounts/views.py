@@ -65,7 +65,7 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
     def bookmarks(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_object())
         key = request.query_params.get('app', None)
-        apps = ['article', 'club', 'chatroom', 'link']
+        apps = ['article', 'club', 'chatroom', 'link', 'education',]
         if key not in apps:
             response = {
                 'message': 'Bad Request',
@@ -80,6 +80,8 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
                 data = serializer.data.get('article_data')
             elif key == 'link':
                 data = serializer.data.get('link_data')
+            elif key == 'education':
+                data = serializer.data.get('education_data')
 
             response = {
                 key+'_bookmark_list': data,
