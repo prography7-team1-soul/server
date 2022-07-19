@@ -24,7 +24,7 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
 
     def get_queryset(self):
         bookmark_count = Count('club_bookmarks') + Count('chatroom_bookmarks') + Count('article_bookmarks') + Count('education_bookmarks') + Count('link_bookmarks')
-        noti_count = Count('club_notification') + Count('education_notification')
+        noti_count = Count('club_notifications') + Count('education_notifications')
         return User.objects.annotate(notification_count=noti_count, bookmarks_count=bookmark_count)
 
     @swagger_auto_schema(operation_summary="회원가입 API", request_body=no_body,
