@@ -12,18 +12,10 @@ class TagSerializer(serializers.ModelSerializer):
         ]
 
 
-class SourceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Source
-        fields = [
-            'name',
-        ]
-
-
 class LinkDetailSerializer(serializers.ModelSerializer):
     is_bookmark = serializers.SerializerMethodField(read_only=True)
     tags = TagSerializer(read_only=True, many=True)
-    source = SourceSerializer(read_only=True)
+    source = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Link
@@ -50,6 +42,8 @@ class LinkDetailSerializer(serializers.ModelSerializer):
         else:
             return False
 
+    def get_source(self, obj):
+        return obj.source.name
 
 class LinkSerializer(serializers.ModelSerializer):
     links = serializers.SerializerMethodField(read_only=True)
