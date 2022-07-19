@@ -16,7 +16,6 @@ class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
         fields = [
-            'id',
             'name',
         ]
 
