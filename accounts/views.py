@@ -24,8 +24,8 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
 
     def get_queryset(self):
         bookmark_count = Count('club_bookmarks') + Count('chatroom_bookmarks') + Count('article_bookmarks') + Count('education_bookmarks') + Count('link_bookmarks')
-        #noti_count = Count('club_notification') + Count('education_notification')
-        return User.objects.annotate(notification_count=Count('club_notifications'), bookmarks_count=bookmark_count)
+        noti_count = Count('club_notification') + Count('education_notification')
+        return User.objects.annotate(notification_count=noti_count, bookmarks_count=bookmark_count)
 
     @swagger_auto_schema(operation_summary="회원가입 API", request_body=no_body,
                          operation_description="- 유저 생성을 위해 헤더에 uuid가 반드시 필요합니다. 없을 경우 {400: 잘못된 요청} 에러가 발생합니다.",
