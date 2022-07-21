@@ -100,6 +100,7 @@ class EducationDetailSerializer(serializers.ModelSerializer):
             'is_bookmark',
             'is_recruitment',
             'is_notification',
+            'detail_image',
         )
 
     def get_is_bookmark(self, obj):

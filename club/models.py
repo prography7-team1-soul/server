@@ -29,6 +29,7 @@ class Club(models.Model):
     activity_area = models.CharField(max_length=31)
     activity_period = models.CharField(max_length=31)
     home_url = models.URLField()
+    detail_image = models.ImageField(default='')
 
     @property
     def is_recruitment(self):

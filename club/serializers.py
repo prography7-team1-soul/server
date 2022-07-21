@@ -101,6 +101,7 @@ class ClubDetailSerializer(serializers.ModelSerializer):
             'is_recruitment',
             'is_bookmark',
             'is_notification',
+            'detail_image',
         )
 
     def get_is_bookmark(self, obj):
