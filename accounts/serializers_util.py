@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from articles.models import Article
+from articles.models import Article, Author
 from chat_rooms.models import ChatRoom
 from club.models import Club, RecruitmentField
 from educations.models import Education, RecruitmentField as E
@@ -40,7 +40,19 @@ class ChatRoomBookmarkSerializer(serializers.ModelSerializer):
         )
 
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = (
+            'author_name',
+            'author_company',
+            'author_part',
+        )
+
+
 class ArticleBookmarkSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
     class Meta:
         model = Article
         fields = (
@@ -48,7 +60,7 @@ class ArticleBookmarkSerializer(serializers.ModelSerializer):
             'summary',
             'url',
             'image',
-            'author_id',
+            'author',
         )
 
 
