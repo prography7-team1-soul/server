@@ -37,11 +37,14 @@ class Education(models.Model):
 
     @property
     def is_recruitment(self):
-        today = date.datetime.today()
-        recruitment_day = self.recruitment_at.split(' ')[0]
-        recruitment_day = datetime.strptime(recruitment_day, "%Y-%m-%d")
-        _result = (today - recruitment_day).days
-        return _result < 0
+        try:
+            today = date.datetime.today()
+            recruitment_day = self.recruitment_at.split(' ')[0]
+            recruitment_day = datetime.strptime(recruitment_day, "%Y-%m-%d")
+            _result = (today - recruitment_day).days
+            return _result < 0
+        except:
+            return False
 
     def __str__(self):
         return self.name
