@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from accounts.models import User
-from articles.models import Article, Author
+from articles.models import Article, Author, Tag
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -14,9 +14,17 @@ class AuthorSerializer(serializers.ModelSerializer):
         )
 
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = (
+            'name',
+        )
+
 class ArticleSerializer(serializers.ModelSerializer):
     is_bookmark = serializers.SerializerMethodField(read_only=True)
     author = AuthorSerializer(read_only=True)
+    tags = TagSerializer(read_only=True, many=True)
 
     class Meta:
         model = Article
@@ -26,6 +34,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             'url',
             'image',
             'is_bookmark',
+            'tags',
         ]
 
         read_only_fields = ['summary', 'author', 'url', 'image',]
