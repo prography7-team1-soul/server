@@ -12,7 +12,7 @@ from chat_rooms.models import ChatRoom
 
 
 class ClubViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset=Club.objects.all()
+    queryset = Club.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -66,7 +66,6 @@ class ClubViewSet(viewsets.ReadOnlyModelViewSet):
     @action(methods=['post'], detail=True)
     def notification(self, request, pk):
         club = self.get_object()
-        print(club)
         user = User.objects.filter(uuid=request.user.uuid, club_notifications__in=[club]).first()
         if user:
             user.club_notifications.remove(club)
