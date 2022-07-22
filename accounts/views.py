@@ -90,9 +90,9 @@ class UserDetailViewSet(mixins.RetrieveModelMixin, GenericViewSet):
     def profile_notifications(self, request, pk):
         category = request.query_params.get('category', None)
         if category:
-            if category=='club':
+            if category == 'club':
                 serializer = ClubNotificationSerializer(request.user.club_notifications, many=True, context={'request':request})
-            elif category=='education':
+            elif category == 'education':
                 serializer = EducationNotificationSerializer(request.user.education_notifications, many=True, context={'request':request})
                 print(serializer.data)
         else:

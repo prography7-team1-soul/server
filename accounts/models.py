@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from accounts.serializers_util import ClubBookmarkSerializer
+
 
 class User(models.Model):
     uuid = models.CharField(unique=True, max_length=63)
@@ -18,7 +20,9 @@ class User(models.Model):
 
     @property
     def club_data(self):
-        return self.club_bookmarks.values() # 필드 추가될 수 있음
+        queryset = self.club_bookmarks.all()
+        serializer = ClubBookmarkSerializer(queryset, many=True)
+        return serializer.data
 
     @property
     def chatroom_data(self):
