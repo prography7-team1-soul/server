@@ -36,6 +36,7 @@ class ChatRoomBookmarkSerializer(serializers.ModelSerializer):
             'url',
             'has_password',
             'image',
+            'category_id',
         )
 
 

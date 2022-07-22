@@ -30,7 +30,7 @@ class User(models.Model):
         queryset = self.chatroom_bookmarks.all()
         serializer = ChatRoomBookmarkSerializer(queryset, many=True)
         return serializer.data
-
+        #return self.chatroom_bookmarks.values()
     @property
     def article_data(self):
         queryset = self.article_bookmarks.all()
