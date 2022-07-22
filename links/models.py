@@ -36,3 +36,7 @@ class Link(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def source_name(self):
+        return self.source.name

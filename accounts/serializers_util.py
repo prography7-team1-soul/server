@@ -3,8 +3,8 @@ from rest_framework import serializers
 from articles.models import Article
 from chat_rooms.models import ChatRoom
 from club.models import Club, RecruitmentField
-from educations.models import Education
-from links.models import Link
+from educations.models import Education, RecruitmentField as E
+from links.models import Link, Tag, Source
 
 
 class ClubRecruitmentFields(serializers.ModelSerializer):
@@ -52,19 +52,39 @@ class ArticleBookmarkSerializer(serializers.ModelSerializer):
         )
 
 
+class LinkTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = (
+            'name',
+        )
+
+
 class LinkBookmarkSerializer(serializers.ModelSerializer):
+    tags = LinkTagSerializer(read_only=True, many=True)
     class Meta:
         model = Link
         fields = (
             'id',
             'title',
             'url',
-            'source_id',
+            'source_name',
+            'tags',
             'category_id',
         )
 
 
+class EducationRecruitmentFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = E
+        fields = (
+            'name',
+        )
+
+
 class EducationBookmarkSerializer(serializers.ModelSerializer):
+    recruitment_fields = EducationRecruitmentFieldSerializer(read_only=True, many=True)
+
     class Meta:
         model = Education
         fields = (
@@ -80,4 +100,5 @@ class EducationBookmarkSerializer(serializers.ModelSerializer):
             'education_period',
             'home_url',
             'detail_image',
+            'recruitment_fields',
         )
