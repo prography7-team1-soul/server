@@ -31,6 +31,9 @@ class Education(models.Model):
     home_url = models.URLField()
     detail_image = models.ImageField(default='')
 
+    class Meta:
+        ordering = ['-name',]
+
     @property
     def sns(self):
         return self.sns_set.values('link', 'image')
