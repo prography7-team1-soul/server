@@ -59,6 +59,7 @@ class EducationNotificationSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'education_description',
             'recruitment_fields',
             'is_bookmark',
         )
