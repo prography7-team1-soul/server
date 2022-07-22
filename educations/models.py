@@ -32,7 +32,7 @@ class Education(models.Model):
     detail_image = models.ImageField(default='')
 
     class Meta:
-        ordering = ['-name',]
+        ordering = ['name',]
 
     @property
     def sns(self):
