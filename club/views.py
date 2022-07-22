@@ -12,7 +12,7 @@ from chat_rooms.models import ChatRoom
 
 
 class ClubViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Club.objects.all()
+    queryset = sorted(Club.objects.all(), key=lambda t: t.is_recruitment, reverse=True)
 
     def get_serializer_class(self):
         if self.action == 'list':
