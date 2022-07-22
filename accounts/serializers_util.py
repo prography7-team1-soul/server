@@ -48,6 +48,7 @@ class ArticleBookmarkSerializer(serializers.ModelSerializer):
             'summary',
             'url',
             'image',
+            'author_id',
         )
 
 
@@ -58,6 +59,8 @@ class LinkBookmarkSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'url',
+            'source_id',
+            'category_id',
         )
 
 
@@ -68,4 +71,13 @@ class EducationBookmarkSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'image',
+            'description',
+            'recruitment_personnel',
+            'recruitment_at',
+            'education_description',
+            'education_cost',
+            'education_area',
+            'education_period',
+            'home_url',
+            'detail_image',
         )
