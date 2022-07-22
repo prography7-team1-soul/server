@@ -32,9 +32,6 @@ class Club(models.Model):
     home_url = models.URLField()
     detail_image = models.ImageField(default='')
 
-    class Meta:
-        ordering = ('name',)
-
     @property
     def is_recruitment(self):
         try:

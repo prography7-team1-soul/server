@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 
 class EducationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Education.objects.all()
+    queryset = sorted(Education.objects.all(), key=lambda t: t.is_recruitment, reverse=True)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -20,8 +20,9 @@ class EducationViewSet(viewsets.ReadOnlyModelViewSet):
             return None
 
     @swagger_auto_schema(operation_summary="교육 리스트 API", request_body=no_body,
-                         operation_description="- 헤더는 필요없어요!",)
+                         operation_description="- 헤더는 필요없어요!", )
     def list(self, request, *args, **kwargs):
+        print(self.queryset)
         response = super().list(request, *args, **kwargs)
         response = {
             'education_list': response.data
