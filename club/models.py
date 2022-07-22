@@ -33,7 +33,7 @@ class Club(models.Model):
     detail_image = models.ImageField(default='')
 
     class Meta:
-        ordering = ['-name',]
+        ordering = ['name',]
 
     @property
     def is_recruitment(self):
