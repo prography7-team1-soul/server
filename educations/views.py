@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 
 class EducationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = sorted(Education.objects.all(), key=lambda t: t.is_recruitment, reverse=True)
+    queryset = Education.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':
