@@ -53,7 +53,7 @@ class EducationSummarizeSerializer(serializers.ModelSerializer):
 class EducationNotificationSerializer(serializers.ModelSerializer):
     recruitment_fields = RecruitmentSerializer(many=True, read_only=True)
     is_bookmark = serializers.SerializerMethodField(read_only=True)
-
+    is_notification = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Education
         fields = (
@@ -62,12 +62,24 @@ class EducationNotificationSerializer(serializers.ModelSerializer):
             'education_description',
             'recruitment_fields',
             'is_bookmark',
+            'is_notification',
         )
 
     def get_is_bookmark(self, obj):
         user = self.context.get("request").user
         if user != None:
             is_bookmark = User.objects.filter(id=user.id, education_bookmarks__in=[obj]).first()
+            if is_bookmark is None:
+                return False
+            else:
+                return True
+        else:
+            return False
+
+    def get_is_notification(self, obj):
+        user = self.context.get("request").user
+        if user != None:
+            is_bookmark = User.objects.filter(id=user.id, education_notifications__in=[obj]).first()
             if is_bookmark is None:
                 return False
             else:
