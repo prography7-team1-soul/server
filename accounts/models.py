@@ -2,7 +2,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from accounts.serializers_util import ClubBookmarkSerializer
+from accounts.serializers_util import ClubBookmarkSerializer, ChatRoomBookmarkSerializer, ArticleBookmarkSerializer, \
+    LinkBookmarkSerializer, EducationBookmarkSerializer
 
 
 class User(models.Model):
@@ -26,19 +27,27 @@ class User(models.Model):
 
     @property
     def chatroom_data(self):
-        return self.chatroom_bookmarks.values()
+        queryset = self.chatroom_bookmarks.all()
+        serializer = ChatRoomBookmarkSerializer(queryset, many=True)
+        return serializer.data
 
     @property
     def article_data(self):
-        return self.article_bookmarks.values()
+        queryset = self.article_bookmarks.all()
+        serializer = ArticleBookmarkSerializer(queryset, many=True)
+        return serializer.data
 
     @property
     def link_data(self):
-        return self.link_bookmarks.values()
+        queryset = self.link_bookmarks.all()
+        serializer = LinkBookmarkSerializer(queryset, many=True)
+        return serializer.data
 
     @property
     def education_data(self):
-        return self.education_bookmarks.values()
+        queryset = self.education_bookmarks.all()
+        serializer = EducationBookmarkSerializer(queryset, many=True)
+        return serializer.data
 
     @property
     def is_anonymous(self):
