@@ -31,6 +31,9 @@ class Club(models.Model):
     home_url = models.URLField()
     detail_image = models.ImageField(default='')
 
+    class Meta:
+        ordering = ('name',)
+
     @property
     def is_recruitment(self):
         today = date.datetime.today()
@@ -41,6 +44,10 @@ class Club(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+
 
 
 class SNS(models.Model):
