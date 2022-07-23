@@ -53,7 +53,7 @@ class ArticleViewSet(ReadOnlyModelViewSet):
             response = {
                 'message': '북마크 해제',
             }
-            return Response(response, status=201)
+            return Response(response, status=204)
         # 유저 아티클 북마크에 해당 아티클이 없으면 북마크 추가
         else:
             user.article_bookmarks.add(instance)
