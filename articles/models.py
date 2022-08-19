@@ -1,5 +1,7 @@
 from django.db import models
 
+from accounts.utils import TimeStampedModel
+
 
 class Part(models.Model):
     class FieldType(models.TextChoices):
@@ -43,7 +45,7 @@ class Author(models.Model):
         return self.name
 
 
-class Article(models.Model):
+class Article(TimeStampedModel):
     summary = models.TextField()
     author = models.ForeignKey('articles.Author', on_delete=models.SET_NULL, null=True)
     url = models.URLField()

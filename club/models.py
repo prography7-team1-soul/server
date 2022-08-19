@@ -2,6 +2,8 @@ from datetime import datetime
 import datetime as date
 from django.db import models
 
+from accounts.utils import TimeStampedModel
+
 
 class RecruitmentField(models.Model):
     class FieldType(models.TextChoices):
@@ -18,7 +20,7 @@ class RecruitmentField(models.Model):
         return self.name
 
 
-class Club(models.Model):
+class Club(TimeStampedModel):
     name = models.CharField(max_length=31)
     image = models.ImageField(upload_to='club')
     club_description = models.TextField()

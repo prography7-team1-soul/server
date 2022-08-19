@@ -1,5 +1,7 @@
 from django.db import models
 
+from accounts.utils import TimeStampedModel
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=15)
@@ -27,7 +29,7 @@ class Category(models.Model):
         return self.name
 
 
-class Link(models.Model):
+class Link(TimeStampedModel):
     title = models.TextField()
     tags = models.ManyToManyField('links.Tag')
     source = models.ForeignKey('links.Source', on_delete=models.CASCADE, null=True)

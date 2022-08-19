@@ -1,7 +1,9 @@
 from django.db import models
 
+from accounts.utils import TimeStampedModel
 
-class ChatRoom(models.Model):
+
+class ChatRoom(TimeStampedModel):
     title = models.CharField(max_length=31)
     url = models.URLField()
     has_password = models.BooleanField(default=False)

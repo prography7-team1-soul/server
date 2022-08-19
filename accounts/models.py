@@ -4,9 +4,10 @@ from django.dispatch import receiver
 
 from accounts.serializers_util import ClubBookmarkSerializer, ChatRoomBookmarkSerializer, ArticleBookmarkSerializer, \
     LinkBookmarkSerializer, EducationBookmarkSerializer
+from accounts.utils import TimeStampedModel
 
 
-class User(models.Model):
+class User(TimeStampedModel):
     uuid = models.CharField(unique=True, max_length=63)
     nickname = models.CharField(unique=True, max_length=15)
     club_bookmarks = models.ManyToManyField('club.Club', blank=True)

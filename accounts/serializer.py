@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
         request_data = self.context.get('request')
         # uuid가 없으면 None으로 반환
         uuid = request_data.headers.get('uuid', None)
-        fcm_token = request_data.data.get('fcm_token', None)
+        fcm_token = request_data.headers.get('fcm_token', None)
         print(fcm_token)
         # get으로 가져오면 오류로 다운될 수 있음
         user = User.objects.filter(uuid=uuid).first()

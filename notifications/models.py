@@ -5,10 +5,11 @@ from django.dispatch import receiver
 from accounts.models import User
 from firebase_admin import messaging
 
+from accounts.utils import TimeStampedModel
 from club.models import Club
 
 
-class Notification(models.Model):
+class Notification(TimeStampedModel):
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     message = models.TextField()
 
@@ -67,5 +68,3 @@ def save_club_notification(sender, instance, created, **kwargs):
                 print('Successfully sent message:', response)
             except:
                 continue
-
-
